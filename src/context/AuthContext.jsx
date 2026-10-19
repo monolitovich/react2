@@ -3,14 +3,25 @@ import React, { createContext, useContext, useState } from 'react';
 const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
-  const [user, setUser] = useState(null);
+  const [user, setUser] = useState(() => {
+    try {
+      const savedUser = localStorage.getItem('app-user');
+      return savedUser ? JSON.parse(savedUser) : null;
+    } catch (error) {
+      console.error('Ошибка чтения сессии из localStorage:', error);
+      return null;
+    }
+  });
 
   const login = (email) => {
-    setUser({ email, name: email.split('@')[0] });
+    const userData = { email, name: email.split('@')[0] };
+    setUser(userData);
+    localStorage.setItem('app-user', JSON.stringify(userData));
   };
 
   const logout = () => {
     setUser(null);
+    localStorage.removeItem('app-user');
   };
 
   return (

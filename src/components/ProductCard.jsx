@@ -21,7 +21,6 @@ export const ProductCard = ({ product }) => {
           alt={product.title}
           className="card-img"
           onError={(e) => {
-            // Если картинка не найдена по пути, подставляем нейтральную заглушку
             e.target.src = 'https://images.unsplash.com/photo-1485955900006-10f4d324d411?w=500&auto=format&fit=crop&q=60';
           }}
         />
